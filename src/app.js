@@ -13,14 +13,13 @@ middlewares
 app.use(compression());
 app.use(helmet());
 app.use(
-  bodyParser.urlencoded({
-    limit: '50mb',
-    extended: false,
-    parameterLimit: 50000
-  })
+    bodyParser.urlencoded({
+        limit: '50mb',
+        extended: false,
+        parameterLimit: 50000
+    })
 );
 app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.raw());
 app.use(cors());
 // app.use(morgan('dev'))
 
