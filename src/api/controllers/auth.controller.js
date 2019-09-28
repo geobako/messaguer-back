@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
             const newUser = await createUser(email, password)
 
 
-            return res.json({ message: 'User succesfully created', user: newUser });
+            return res.json({ message: 'User succesfully created' });
         } catch (error) {
             console.log(error);
             return res
@@ -37,6 +37,7 @@ exports.login = async (req, res) => {
                 .json({ message: 'Email or Password is incorrect' });
         }
         const token = await loginUserWithJWT(user)
+        user.password = ''
         return res.json({ token, user: user });
     } catch (error) {
         console.log(error);
