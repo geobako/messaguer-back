@@ -1,0 +1,30 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Appointments API",
+        "description": "Api docs for apointment Saas",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "schemes": [
+        "http"
+    ],
+    "tags": [{
+            "name": "Admin",
+            "description": "APi for admin users of the system"
+        },
+        {
+            "name": "Users",
+            "description": "APi for simple users of the system"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ]
+}

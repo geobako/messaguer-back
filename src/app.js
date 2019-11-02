@@ -1,4 +1,6 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -22,6 +24,11 @@ app.use(
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(cors());
 // app.use(morgan('dev'))
+
+/*
+Swagger
+*/
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 /*
 Use routes
