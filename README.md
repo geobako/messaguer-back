@@ -18,9 +18,11 @@ npm run dev
 ```
 
 
-## Before development
+## Development tips 
 
-#### Do not forget to checkout to dev branch and create another branch base on dev before adding a new feature
+* #### Do not forget to checkout to dev branch and create another branch base on dev before adding a new feature
+
 ```diff
-- DO NOT MAKE CHANGES OR PUSH TO THE MASTER OR DEV BRANCH
+- DO NOT MAKE CHANGES OR PUSH TO THE MASTER OR DEV BRANCH DIRECTLY
 ```
+* #### Always update `swagger.json` after making changes to any routes
