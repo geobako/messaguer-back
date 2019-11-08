@@ -3,7 +3,7 @@ const {
   login,
   register,
   getUserFromToken
-} = require('../controllers/auth.controller');
+} = require('../../controllers/admin/auth.controller');
 
 const AuthRouter = express.Router();
 

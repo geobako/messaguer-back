@@ -1,12 +1,9 @@
 const express = require('express');
 
 /*
-import routes
+import admin routes
 */
-const authRoutes = require('./auth.route');
-const cocktailRoutes = require('./cocktail.route');
-const favoritesRoutes = require('./favorites.route');
-const placesRoutes = require('./places.route');
+const authRoutes = require('./admin/auth.route');
 
 /*
 initialize router
@@ -14,12 +11,9 @@ initialize router
 const router = express.Router();
 
 /*
-Use routes
+Use admin routes
 */
-router.use('/auth', authRoutes);
-router.use('/cocktail', cocktailRoutes);
-router.use('/favorite', favoritesRoutes);
-router.use('/places', placesRoutes);
+router.use('/admin/auth', authRoutes);
 
 //test route
 router.get('/test', (req, res) => {

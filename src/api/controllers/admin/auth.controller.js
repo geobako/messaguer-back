@@ -1,10 +1,10 @@
-const User = require('../models/user.model.js');
+const User = require('../../models/user.model.js');
 const bcrypt = require('bcryptjs');
 const {
   createUser,
   loginUserWithJWT,
   decodeTokenAndGetUser
-} = require('../../services/authServices');
+} = require('../../../services/authServices');
 
 exports.getUserFromToken = async (req, res) => {
   const { token } = req.params;
