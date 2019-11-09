@@ -8,6 +8,11 @@
         "dev": "NODE_ENV=development nodemon server.js",
         "start": "NODE_ENV=production node server.js"
     },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged"
+        }
+    },
     "author": "",
     "license": "ISC",
     "dependencies": {
@@ -26,5 +31,14 @@
         "nodemon": "^1.19.1",
         "socket.io": "^2.2.0",
         "swagger-ui-express": "^4.1.2"
+    },
+    "devDependencies": {
+        "eslint": "^6.6.0",
+        "eslint-config-prettier": "^6.5.0",
+        "eslint-plugin-node": "^10.0.0",
+        "eslint-plugin-prettier": "^3.1.1",
+        "husky": "^3.0.9",
+        "prettier": "1.19.0",
+        "pretty-quick": "^2.0.1"
     }
 }

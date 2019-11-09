@@ -13,7 +13,7 @@ io.on('connection', async socket => {
         io.emit('comment added');
     });
 
-    socket.on('disconnect', function () {
+    socket.on('disconnect', function() {
         console.log('user disconnected');
     });
 });
