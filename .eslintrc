@@ -8,6 +8,7 @@
     ],
     "rules":{
        "camelcase": 2,
+      " no-duplicate-imports": "error",
        "node/no-missing-require": ["error", "always"],
        "node/exports-style": ["error", "always"],
        "node/no-callback-literal": "error"
