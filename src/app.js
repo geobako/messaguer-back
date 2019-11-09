@@ -7,8 +7,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const router = require('./api/routes/index');
 const morgan = require('morgan');
-const { handleError, CustomError } = require('./helpers/errorHandling');
-const { ResponseObject } = require('./helpers/responseHandling');
+const { handleError } = require('./helpers/errorHandling');
 
 const app = express();
 
@@ -37,15 +36,6 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 Use routes
 */
 app.use('/', router);
-
-app.get('/error', async (req, res, next) => {
-    try {
-        const response = new ResponseObject(201, { name: 'george' });
-        return res.status(201).json(response);
-    } catch (err) {
-        next(err);
-    }
-});
 
 /*
 Error handling middleware

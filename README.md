@@ -6,23 +6,38 @@ To be filled
 
 ## Usage
 
-#### Clone repo and run 
+#### Clone repo and run
+
 ```
 npm install
 ```
+
 Make a `.env` file according to `.example.env` and add your own variales if you like
-Then run : 
+Then run :
 
 ```
 npm run dev
 ```
 
+## Development tips
 
-## Development tips 
-
-* #### Do not forget to checkout to dev branch and create another branch base on dev before adding a new feature
+-   #### Do not forget to checkout to dev branch and create another branch base on dev before adding a new feature
 
 ```diff
 - DO NOT MAKE CHANGES OR PUSH TO THE MASTER OR DEV BRANCH DIRECTLY
 ```
-* #### Always update `swagger.json` after making changes to any routes
+
+-   #### Always update `swagger.json` after making changes to any routes
+-   #### Always use the custom error handler to handle errors. For Example:
+
+```Javascript
+ throw new CustomError(404, 'hello');
+```
+
+or in a catch block:
+
+```Javascript
+catch (err) {
+        next(err);
+    }
+```
