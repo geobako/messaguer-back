@@ -11,23 +11,33 @@ let users = [];
 
 io.on('connection', async socket => {
     socket.on('login', data => {
+        const newUser = { [data.username]: data.id, id: data.id, name: data.username };
         if (!users.find(el => el[data.username] === data.id)) {
-            users.push({
-                [data.username]: data.id,
-                id: data.id,
-                name: data.username
-            });
+            users.push(newUser);
         }
-        socket.broadcast.emit('UserAdded', { name: data.username });
+        socket.broadcast.emit('UserAdded', { user: newUser });
     });
 
     socket.on('getUsers', data => {
-        io.to(`${data.id}`).emit('users', users);
+        console.log('works');
+        io.to(`${data.id}`).emit('users', { users: users.filter(el => el.id !== data.id) });
+    });
+
+    socket.on('logout', function(data) {
+        users = users.filter(el => el.id !== data.id);
+        socket.broadcast.emit('userLoggedOut', { users: users });
+    });
+
+    socket.on('someonePinged', data => {
+        console.log(data);
+        let by = users.find(el => el.id === data.by);
+
+        io.to(`${data.user.id}`).emit('pinged', { by });
     });
 
     socket.on('disconnect', function() {
         users = users.filter(el => el.id !== socket.id);
-        socket.emit('disconnected', users);
+        io.emit('disconnected', { users: users });
     });
 });
 
