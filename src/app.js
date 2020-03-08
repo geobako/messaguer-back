@@ -61,9 +61,7 @@ app.post('/new-message', async (req, res) => {
         const { message } = req.body;
         const newMessage = await new Message({ text: message.text, user: message.user, id: message.id }).save();
         const users = await User.find();
-        console.log('mm', message.user.id);
         users.forEach(u => {
-            console.log('fff', u._id);
             if (u._id.toString() !== message.user.id && u.subscription) {
                 const payload = JSON.stringify({
                     title: `${message.user.name} sent a message`

@@ -13,7 +13,7 @@ let webUsers = [];
 let mobileUsers = [];
 
 io.on('connection', async socket => {
-    socket.on('login', data => {
+    socket.on('login', function(data) {
         const { _id, name, avatar, isMobile } = data.user;
         const newUser = { socketId: socket.id, name, avatar, id: _id };
         if (isMobile) {
@@ -31,7 +31,8 @@ io.on('connection', async socket => {
 
     socket.on('message-sent', function(data) {
         const { message } = data;
-        console.log(message);
+        console.log(webUsers, mobileUsers);
+        // console.log(message, 4444);
         socket.broadcast.emit('new-message', { message });
     });
 

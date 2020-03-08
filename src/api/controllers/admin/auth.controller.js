@@ -41,6 +41,12 @@ exports.login = async (req, res) => {
             return res.status(200).json({ message: 'User ok', user: newUser });
         }
 
+        if (!user.avatar && avatar) {
+            user.avatar = avatar;
+            const userWithAvatar = await user.save();
+            return res.json({ message: 'User ok', user: userWithAvatar });
+        }
+
         return res.json({ message: 'User ok', user });
     } catch (error) {
         console.log(error);
