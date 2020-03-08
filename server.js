@@ -3,41 +3,48 @@ const app = require('./src/app');
 const keys = require('./src/config/keys');
 const mongoose = require('mongoose');
 const socketio = require('socket.io');
+const Message = require('./src/api/models/message.model');
 
 const server = new http.Server(app);
 const io = socketio(server);
+app.locals.io = io;
 
-let users = [];
+let webUsers = [];
+let mobileUsers = [];
 
 io.on('connection', async socket => {
     socket.on('login', data => {
-        const newUser = { [data.username]: data.id, id: data.id, name: data.username };
-        if (!users.find(el => el[data.username] === data.id)) {
-            users.push(newUser);
+        const { _id, name, avatar, isMobile } = data.user;
+        const newUser = { socketId: socket.id, name, avatar, id: _id };
+        if (isMobile) {
+            if (!mobileUsers.find(el => el.id === data.id)) {
+                mobileUsers.push(newUser);
+            }
+        } else {
+            if (!webUsers.find(el => el.id === data.id)) {
+                webUsers.push(newUser);
+            }
         }
+
         socket.broadcast.emit('UserAdded', { user: newUser });
     });
 
-    socket.on('getUsers', data => {
-        console.log('works');
-        io.to(`${data.id}`).emit('users', { users: users.filter(el => el.id !== data.id) });
+    socket.on('message-sent', function(data) {
+        const { message } = data;
+        console.log(message);
+        socket.broadcast.emit('new-message', { message });
     });
 
     socket.on('logout', function(data) {
-        users = users.filter(el => el.id !== data.id);
-        socket.broadcast.emit('userLoggedOut', { users: users });
-    });
-
-    socket.on('someonePinged', data => {
-        console.log(data);
-        let by = users.find(el => el.id === data.by);
-
-        io.to(`${data.user.id}`).emit('pinged', { by });
+        console.log('logout');
+        webUsers = webUsers.filter(el => el.socketId !== data.id);
+        mobileUsers = mobileUsers.filter(el => el.socketId !== data.id);
     });
 
     socket.on('disconnect', function() {
-        users = users.filter(el => el.id !== socket.id);
-        io.emit('disconnected', { users: users });
+        webUsers = webUsers.filter(el => el.socketId !== socket.id);
+        mobileUsers = mobileUsers.filter(el => el.socketId !== socket.id);
+        // io.emit('disconnected', { users: users });
     });
 });
 
