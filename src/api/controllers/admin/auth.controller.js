@@ -33,12 +33,18 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const { name, avatar } = req.body;
+        const { name, avatar, token } = req.body;
         // let loadedUser;
         const user = await User.findOne({ name });
         if (!user) {
-            const newUser = await new User({ name, avatar }).save();
+            const newUser = await new User({ name, avatar, mobileToken: token }).save();
             return res.status(200).json({ message: 'User ok', user: newUser });
+        }
+
+        if (!user.token && token) {
+            user.mobileToken = token;
+            const userWithToken = await user.save();
+            return res.json({ message: 'User ok', user: userWithToken });
         }
 
         if (!user.avatar && avatar) {

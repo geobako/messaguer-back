@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: false
         },
+        mobileToken: {
+            type: String,
+            required: false
+        },
         subscription: Object
     },
     { timestamps: true }

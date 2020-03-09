@@ -31,7 +31,6 @@ io.on('connection', async socket => {
 
     socket.on('message-sent', function(data) {
         const { message } = data;
-        console.log(webUsers, mobileUsers);
         // console.log(message, 4444);
         socket.broadcast.emit('new-message', { message });
     });

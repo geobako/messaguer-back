@@ -12,6 +12,14 @@ const Message = require('./api/models/message.model');
 const User = require('./api/models/user.model');
 const webpush = require('web-push');
 const { privateKey, publicKey } = require('./config/keys');
+const admin = require('firebase-admin');
+
+const serviceAccount = require('../service-account.json');
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://messaguer-9d76f.firebaseio.com'
+});
 
 const WEB_PUSH_CONTACT = 'mailto: giorgosbakogiannis@gmail.com';
 
@@ -61,6 +69,7 @@ app.post('/new-message', async (req, res) => {
         const { message } = req.body;
         const newMessage = await new Message({ text: message.text, user: message.user, id: message.id }).save();
         const users = await User.find();
+
         users.forEach(u => {
             if (u._id.toString() !== message.user.id && u.subscription) {
                 const payload = JSON.stringify({
@@ -68,6 +77,18 @@ app.post('/new-message', async (req, res) => {
                 });
 
                 webpush.sendNotification(u.subscription, payload);
+            }
+            if (u._id.toString() !== message.user.id && u.mobileToken) {
+                const registrationToken = u.mobileToken;
+                const newmessage = `${message.user.name} sent a message`;
+                const options = { priority: 'high', timeToLive: 60 * 60 * 24 };
+                const send_message = {
+                    notification: {
+                        title: newmessage
+                    }
+                };
+
+                admin.messaging().sendToDevice(registrationToken, send_message, options);
             }
         });
 
