@@ -73,7 +73,30 @@ app.post('/new-message', async (req, res) => {
         users.forEach(u => {
             if (u._id.toString() !== message.user.id && u.subscription) {
                 const payload = JSON.stringify({
-                    title: `${message.user.name} sent a message`
+                    title: `${message.user.name} sent a message`,
+                    text: 'Open it asap',
+                    image:
+                        'https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+                    url: 'http://localhost:3000',
+                    actions: [
+                        {
+                            action: 'google',
+                            title: 'Go to google',
+                            icon: 'https://tikkatake.com.au/wp-content/uploads/Google-Icon.png'
+                        },
+                        {
+                            action: 'apple',
+                            title: 'Go to apple',
+                            icon:
+                                'https://lh3.googleusercontent.com/proxy/jjvXjZbX5CYmv7xs-0qAtxR1-9jtoDQ3dVayB1-_HnpNNcGkTUQ0j4qTqD3pEpao-o6oEj2TbK_0jbH8K2YpEJzUIF5QtqTfiRpUzm_rRZPUX79aRoh1tLlMDNXzEoeI'
+                        },
+                        {
+                            action: 'facebook',
+                            title: 'Go to facebook',
+                            icon:
+                                'https://lh3.googleusercontent.com/proxy/-5iPKEang-XIN4L5P2IN1kQKzkVthktFeMeJHv9WF8BPEHdsCJgPqsg9obEGxPtul0H7hCKtmP7AL3fF-Ndx7kLnMSv-TEmIMNUxbKG3d5lE5ei0fjJ--Q'
+                        }
+                    ]
                 });
 
                 webpush.sendNotification(u.subscription, payload);
